@@ -1,7 +1,7 @@
 import re
 
-from templating_engine.token import Token
-from templating_engine.token.token_type import token_types_list
+from src.token import Token
+from src.token.token_type import token_types_list
 
 
 class Lexer:
@@ -13,7 +13,7 @@ class Lexer:
 
     def lexical_analysis(self) -> list[Token]:
         with open(self.file_path) as file:
-            for line in file.readlines():
+            while line := file.readline():
                 self.fill_token_list(line)
 
         return self.token_list
@@ -21,7 +21,7 @@ class Lexer:
     @classmethod
     def fill_token_list(cls, file_line: str) -> None:
         local_position = 0
-        while local_position + 1 < len(file_line):
+        while local_position + 1 <= len(file_line):
             for token_type in token_types_list.values():
                 match = re.search(
                     f"^{token_type.regex}",

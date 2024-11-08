@@ -116,3 +116,6 @@ test_project/db.sqlite3
 
 # Test files for lexer
 test_files
+
+# Test parser results
+rendered_files
