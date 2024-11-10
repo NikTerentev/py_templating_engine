@@ -1,18 +1,15 @@
-from templating_engine.lexer import Lexer
+from src.lexer import Lexer
+from src.parser import Parser
 
 
 def main():
     lexer = Lexer("test_files/first_template.html")
     lexer.lexical_analysis()
-    tokens = [
-        token for token in lexer.token_list if token.type.name not in [
-            "SPACE",
-            "CODE",
-        ]
-    ]
+    parser = Parser(lexer.token_list)
 
-    for token in tokens:
-        print(f"Token type: {token.type.name} - value: {token.text} position: {token.position}")
+    root_node = parser.parse_code()
+
+    parser.render(root_node, "first_template.html")
 
 
 if __name__ == "__main__":

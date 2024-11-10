@@ -1,0 +1,7 @@
+{
+    "app_label": "My app",
+    "app_url": "http://localhost:8000",
+    "new_password_url": "http://localhost:9000",
+    "uid": "anwmenbvmae41nl512l521l",
+    "token": "x450bm41ng=3ng93bn"
+}
