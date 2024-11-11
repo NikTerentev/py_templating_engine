@@ -119,3 +119,7 @@ test_files
 
 # Test parser results
 rendered_files
+created_project
+
+# Main file for testing template engine
+main.py

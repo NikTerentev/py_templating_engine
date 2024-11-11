@@ -2,8 +2,8 @@ from .expression_node import ExpressionNode
 
 
 class StatementsNode(ExpressionNode):
-    code_strings: list[ExpressionNode] = []
+    def __init__(self) -> None:
+        self.code_strings: list[ExpressionNode] = []
 
-    @classmethod
-    def add_node(cls, node: ExpressionNode) -> None:
-        cls.code_strings.append(node)
+    def add_node(self, node: ExpressionNode) -> None:
+        self.code_strings.append(node)

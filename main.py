@@ -1,15 +1,21 @@
-from src.lexer import Lexer
-from src.parser import Parser
+from src.environment import TemplatesEnvironment
 
 
-def main():
-    lexer = Lexer("test_files/first_template.html")
-    lexer.lexical_analysis()
-    parser = Parser(lexer.token_list)
+def main() -> None:
+    environment = TemplatesEnvironment("test_files/")
+    result = environment.render_project(
+        output_dir="created_project",
+        create_dirs=True,
+    )
+    print(result)
 
-    root_node = parser.parse_code()
-
-    parser.render(root_node, "first_template.html")
+    # template: Template = environment.get_template("first_template.html")
+    # template.render(
+    #     save_path="rendered_files/first_template.html",
+    #     context_path="templater.json",
+    #     create_dirs=True,
+    # )
+    # print(rendered_template)
 
 
 if __name__ == "__main__":
