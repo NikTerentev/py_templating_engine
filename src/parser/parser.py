@@ -1,15 +1,12 @@
-import json
-from pathlib import Path
-
 from src.token import Token
 from src import ast
 from src import token
 
 
 class Parser:
-    position: int = 0
 
     def __init__(self, tokens: list[Token]) -> None:
+        self.position: int = 0
         self.tokens = tokens
 
     def match(self, expected_tokens: list[token.TokenType]) -> Token | None:
@@ -93,26 +90,3 @@ class Parser:
             if code_string_node:
                 root_node.add_node(code_string_node)
         return root_node
-
-    def render(
-        self,
-        root_node: ast.ExpressionNode,
-        file_path: str,
-        config_file_path: str = "templater.json",
-    ) -> None:
-        with open(config_file_path, "r") as config_file:
-            config = json.load(config_file)
-        rendered_dir = "rendered_files"
-        Path(rendered_dir).mkdir()
-        result_path = Path(rendered_dir) / Path(file_path)
-        with open(result_path, "w") as result_file:
-            for code_string in root_node.code_strings:
-                if code_string.variable.type == token.token_types_list[
-                    "VARIABLE"
-                ]:
-                    code_string.variable.text = config.get(
-                        code_string.variable.text.replace(
-                            "templater.", "", 1
-                        )
-                    )
-                result_file.write(code_string.variable.text)
