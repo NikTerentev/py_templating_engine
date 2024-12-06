@@ -1,6 +1,7 @@
 from pathlib import Path
 from src import exceptions
 from src.template import Template
+from src.renderer import Renderer
 
 
 class TemplatesEnvironment:
@@ -25,25 +26,58 @@ class TemplatesEnvironment:
         create_dirs: bool = True,
         context_path: str = "templater.json",
     ) -> str:
-        self._process_output_dir(Path(output_dir), create_dirs)
+        self._create_output_dir(
+            Path(output_dir),
+            create_dirs,
+        )
         for file in self.dir_path.rglob("*"):
             if file.is_file():
-                template = Template(file.as_posix())
-                template.render(
-                    save_path=(
-                        Path(output_dir) / file.relative_to(self.dir_path)
-                    ).as_posix(),
-                    context_path=context_path,
-                    create_dirs=True,
+                self.process_output_file(
+                    file,
+                    output_dir,
+                    context_path,
                 )
-            elif file.is_dir():
-                self._process_output_dir(
+            if file.is_dir():
+                self.process_output_dir(
                     output_dir / file.relative_to(self.dir_path),
                     create_dirs,
+                    context_path,
                 )
         return output_dir
 
-    def _process_output_dir(
+    def process_output_file(
+        self,
+        file: Path,
+        output_dir: str,
+        context_path: str,
+    ) -> None:
+        template = Template(file.as_posix())
+        template.render(
+            save_path=(
+                Path(output_dir) / file.relative_to(self.dir_path)
+            ).as_posix(),
+            context_path=context_path,
+            create_dirs=True,
+        )
+
+    def process_output_dir(
+        self,
+        output_dir_path: Path,
+        create_dirs: bool,
+        context_path: str,
+    ) -> None:
+        renderer = Renderer(
+            template_file_path=output_dir_path,
+            save_path=output_dir_path.as_posix(),
+            context_path=context_path,
+        )
+        output_dir_path = renderer.render_file_path(output_dir_path)
+        self._create_output_dir(
+            output_dir_path,
+            create_dirs,
+        )
+
+    def _create_output_dir(
         self,
         output_dir_path: Path,
         create_dirs: bool,

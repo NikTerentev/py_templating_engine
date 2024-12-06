@@ -1,6 +1,8 @@
 from pathlib import Path
 import json
+import re
 from src import exceptions
+from typing import Any
 
 from src.lexer import Lexer
 from src import token
@@ -20,8 +22,11 @@ class Renderer:
         self.template_file_path: Path = template_file_path
         self.context_path: Path = self._validate_context_path(Path(context_path))
         self.create_dirs = create_dirs
+        self.context = self.load_context()
         self.save_path: Path | None = (
-            self._validate_save_path(Path(save_path)) if save_path else None
+            self._validate_save_path(
+                self.render_file_path(Path(save_path))
+            ) if save_path else None
         )
 
     def _validate_context_path(self, file_path: Path) -> Path:
@@ -47,17 +52,31 @@ class Renderer:
         lexer.lexical_analysis()
         parser = Parser(lexer.token_list)
         root_node: ast.ExpressionNode = parser.parse_code()
+        self.save_path = self.render_file_path(self.save_path)
         rendered_string: None | str = self._render_ast_tree(root_node)
 
         if not self.save_path:
             return rendered_string
 
-    def _render_ast_tree(
+    def render_file_path(
         self,
-        root_node: ast.ExpressionNode,
-    ) -> None | str:
-        context = self.load_context()
+        file_path: Path,
+    ) -> Path:
+        match = re.search(
+            r"{{(\S*?)(templater\.\S*?)}}",
+            file_path.as_posix(),
+        )
+        if match:
+            context_variable = self._get_context_variable(match.groups()[1])
+            file_path = Path(
+                file_path.as_posix().replace(
+                    match.group(),
+                    context_variable,
+                )
+            )
+        return file_path
 
+    def _render_ast_tree(self, root_node: ast.ExpressionNode) -> None | str:
         if self.save_path:
             rendered_file = open(self.save_path, "w")
         else:
@@ -66,8 +85,8 @@ class Renderer:
         for code_string in root_node.code_strings:
             if code_string.variable.type == token.token_types_list["VARIABLE"]:
                 # TODO: Add check for wrong context variables
-                code_string.variable.text = context.get(
-                    code_string.variable.text.replace("templater.", "", 1)
+                code_string.variable.text = self._get_context_variable(
+                    code_string.variable.text
                 )
 
             if self.save_path:
@@ -79,6 +98,9 @@ class Renderer:
             rendered_file.close()
         else:
             return rendered_string
+
+    def _get_context_variable(self, variable: str) -> Any:
+        return self.context.get(variable.replace("templater.", "", 1))
 
     def load_context(self) -> dict[str, str | int | float | bool]:
         with open(self.context_path, "r") as context_file:

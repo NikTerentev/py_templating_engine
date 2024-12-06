@@ -1,5 +1,6 @@
 {
     "app_label": "My app",
+    "out_dir": "src_dir",
     "app_url": "http://localhost:8000",
     "new_password_url": "http://localhost:9000",
     "uid": "anwmenbvmae41nl512l521l",
