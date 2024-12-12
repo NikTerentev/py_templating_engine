@@ -1,17 +1,14 @@
-from pathlib import Path
 import json
 import re
-from src import exceptions
+from pathlib import Path
 from typing import Any
 
-from src.lexer import Lexer
-from src import token
-from src.parser import Parser
-from src import ast
+from py_templating_engine import ast, exceptions, token
+from py_templating_engine.lexer import Lexer
+from py_templating_engine.parser import Parser
 
 
 class Renderer:
-
     def __init__(
         self,
         template_file_path: Path,
@@ -20,13 +17,15 @@ class Renderer:
         create_dirs: bool = False,
     ) -> None:
         self.template_file_path: Path = template_file_path
-        self.context_path: Path = self._validate_context_path(Path(context_path))
+        self.context_path: Path = self._validate_context_path(
+            Path(context_path),
+        )
         self.create_dirs = create_dirs
         self.context = self.load_context()
         self.save_path: Path | None = (
-            self._validate_save_path(
-                self.render_file_path(Path(save_path))
-            ) if save_path else None
+            self._validate_save_path(self.render_file_path(Path(save_path)))
+            if save_path
+            else None
         )
 
     def _validate_context_path(self, file_path: Path) -> Path:
@@ -72,7 +71,7 @@ class Renderer:
                 file_path.as_posix().replace(
                     match.group(),
                     context_variable,
-                )
+                ),
             )
         return file_path
 
@@ -86,7 +85,7 @@ class Renderer:
             if code_string.variable.type == token.token_types_list["VARIABLE"]:
                 # TODO: Add check for wrong context variables
                 code_string.variable.text = self._get_context_variable(
-                    code_string.variable.text
+                    code_string.variable.text,
                 )
 
             if self.save_path:
@@ -103,5 +102,5 @@ class Renderer:
         return self.context.get(variable.replace("templater.", "", 1))
 
     def load_context(self) -> dict[str, str | int | float | bool]:
-        with open(self.context_path, "r") as context_file:
+        with open(self.context_path) as context_file:
             return json.load(context_file)

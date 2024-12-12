@@ -1,12 +1,13 @@
 from pathlib import Path
-from src import exceptions
-from src.renderer import Renderer
+
+from py_templating_engine import exceptions
+from py_templating_engine.renderer import Renderer
 
 
 class Template:
     def __init__(self, template_file_path: str) -> None:
         self.template_file_path: Path = self._validate_path(
-            Path(template_file_path)
+            Path(template_file_path),
         )
 
     def _validate_path(self, template_file_path: Path) -> Path:

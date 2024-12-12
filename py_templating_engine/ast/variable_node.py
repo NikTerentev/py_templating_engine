@@ -1,11 +1,11 @@
-from src.token import Token
+from py_templating_engine.token import Token
+
 from .expression_node import ExpressionNode
 from .left_bracket_node import LeftBracketNode
 from .right_bracket_node import RightBracketNode
 
 
 class VariableNode(ExpressionNode):
-
     def __init__(
         self,
         left_bracket: LeftBracketNode,
