@@ -1,0 +1,49 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+      - id: check-added-large-files
+      - id: end-of-file-fixer
+      - id: trailing-whitespace
+      - id: mixed-line-ending
+        name: "Enforce LF newlines on most files"
+        args:
+          - "--fix=crlf"
+      - id: debug-statements
+      - id: check-merge-conflict
+      - id: name-tests-test
+        args: [--pytest-test-first]
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.6.2
+    hooks:
+      - id: ruff
+        args: [--fix]
+      - id: ruff-format
+
+  - repo: https://github.com/asottile/add-trailing-comma
+    rev: v3.1.0
+    hooks:
+      - id: add-trailing-comma
+
+  - repo: https://github.com/jorisroovers/gitlint
+    rev: v0.19.1
+    hooks:
+      - id: gitlint
+
+  - repo: local
+    hooks:
+      - id: tests
+        name: run tests
+        entry: pytest -n 4 --cov=.
+        language: system
+        pass_filenames: false
+        types: [python]
+        stages: [pre-push]
+      - id: mypy
+        name: mypy
+        entry: mypy .
+        language: system
+        pass_filenames: false
+        types: [file]
+        stages: [pre-push]

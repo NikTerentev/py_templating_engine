@@ -1,4 +1,4 @@
-from src.environment import TemplatesEnvironment
+from py_templating_engine.environment import TemplatesEnvironment
 
 
 def main() -> None:

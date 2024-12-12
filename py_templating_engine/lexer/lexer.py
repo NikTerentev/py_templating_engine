@@ -1,11 +1,10 @@
 import re
 
-from src.token import Token
-from src.token.token_type import token_types_list
+from py_templating_engine.token import Token
+from py_templating_engine.token.token_type import token_types_list
 
 
 class Lexer:
-
     def __init__(self, file_path: str):
         self.position: int = 0
         self.token_list: list[Token] = []
@@ -23,8 +22,7 @@ class Lexer:
         while local_position + 1 <= len(file_line):
             for token_type in token_types_list.values():
                 match = re.search(
-                    f"^{token_type.regex}",
-                    file_line[local_position:]
+                    f"^{token_type.regex}", file_line[local_position:],
                 )
                 if match:
                     new_token = Token(

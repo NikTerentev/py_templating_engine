@@ -1,11 +1,11 @@
 from pathlib import Path
-from src import exceptions
-from src.template import Template
-from src.renderer import Renderer
+
+from py_templating_engine import exceptions
+from py_templating_engine.renderer import Renderer
+from py_templating_engine.template import Template
 
 
 class TemplatesEnvironment:
-
     def __init__(self, dir_path: str) -> None:
         self.dir_path: Path = self._validate_path(Path(dir_path))
 

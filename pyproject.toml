@@ -1,0 +1,282 @@
+[tool.poetry]
+name = "py-templating-engine"
+version = "0.1.0"
+description = "Templating engine, written on Python"
+authors = ["Terentev Nikita <nitro-2003@mail.ru>"]
+license = "GPL-3.0"
+readme = "README.md"
+
+
+[tool.poetry.dependencies]
+python = "^3.13"
+
+
+[tool.poetry.group.dev.dependencies]
+# Provides a rich toolkit to help you make the most out of using Python interactively
+# https://github.com/ipython/ipython
+ipython = "^8.30.0"
+# Exports functions to access the IPython debugger, which features tab completion, syntax highlighting, better tracebacks
+# https://github.com/gotcha/ipdb
+ipdb = "^0.13.13"
+
+
+[tool.poetry.group.test.dependencies]
+# Makes it easy to write small tests, yet scales to support complex functional testing
+# https://github.com/pytest-dev/pytest
+pytest = "^8.3.4"
+# Coverage plugin for pytest
+# https://github.com/pytest-dev/pytest-cov
+pytest-cov = "^6.0.0"
+
+
+[tool.poetry.group.commit-style.dependencies]
+# Linting for your git commit messages
+# https://github.com/jorisroovers/gitlint
+gitlint = "^0.19.1"
+# An extremely fast Python linter and code formatter, written in Rust
+# https://github.com/astral-sh/ruff
+ruff = "^0.8.2"
+
+
+[tool.poetry.group.local.dependencies]
+# A framework for managing and maintaining multi-language pre-commit hooks
+# https://github.com/pre-commit/pre-commit
+pre-commit = "^4.0.1"
+
+
+[tool.poetry.group.linters.dependencies]
+# Mypy is a static type checker for Python.
+# https://mypy.readthedocs.io/en/stable/
+mypy = "^1.13.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.ruff]
+line-length = 79
+indent-width = 4
+target-version = "py313"
+
+
+[tool.ruff.lint]
+extend-select = [
+  # https://docs.astral.sh/ruff/rules/#pycodestyle-e-w
+  "W",
+  "E",
+  # https://docs.astral.sh/ruff/rules/#mccabe-c90
+  "C90",
+  # https://docs.astral.sh/ruff/rules/#isort-i
+  "I",
+  # https://docs.astral.sh/ruff/rules/#pep8-naming-n
+  "N",
+  # https://docs.astral.sh/ruff/rules/#pydocstyle-d
+  "D",
+  # https://docs.astral.sh/ruff/rules/#pyupgrade-up
+  "UP",
+  # https://docs.astral.sh/ruff/rules/#flake8-annotations-ann
+  "ANN",
+  # https://docs.astral.sh/ruff/rules/#flake8-bandit-s
+  "S",
+  # https://docs.astral.sh/ruff/rules/#flake8-blind-except-ble
+  "BLE",
+  # https://docs.astral.sh/ruff/rules/#flake8-boolean-trap
+  "FBT",
+  # https://docs.astral.sh/ruff/rules/#flake8-bugbear-b
+  "B",
+  # https://docs.astral.sh/ruff/rules/#flake8-builtins-a
+  "A",
+  # https://docs.astral.sh/ruff/rules/#flake8-commas-com
+  "COM",
+  # https://docs.astral.sh/ruff/rules/#flake8-comprehensions-c4
+  "C4",
+  # https://docs.astral.sh/ruff/rules/#flake8-debugger-t10
+  "T10",
+  # https://docs.astral.sh/ruff/rules/#flake8-implicit-str-concat-isc
+  "ISC",
+  # https://docs.astral.sh/ruff/rules/#flake8-no-pep420-inp
+  "INP",
+  # https://docs.astral.sh/ruff/rules/#flake8-print-t20
+  "T20",
+  # https://docs.astral.sh/ruff/rules/#flake8-pytest-style-pt
+  "PT",
+  # https://docs.astral.sh/ruff/rules/#flake8-raise-rse
+  "RSE",
+  # https://docs.astral.sh/ruff/rules/#flake8-return-ret
+  "RET",
+  # https://docs.astral.sh/ruff/rules/#flake8-simplify-sim
+  "SIM",
+  # https://docs.astral.sh/ruff/rules/#flake8-use-pathlib-pth
+  "PTH",
+  # https://docs.astral.sh/ruff/rules/#flake8-todos-td
+  "TD",
+  # https://docs.astral.sh/ruff/rules/#eradicate-era
+  "ERA",
+  # https://docs.astral.sh/ruff/rules/#tryceratops-try
+  "TRY",
+  # https://docs.astral.sh/ruff/rules/#flynt-fly
+  "FLY",
+  # https://docs.astral.sh/ruff/rules/#perflint-perf
+  "PERF",
+  # https://docs.astral.sh/ruff/rules/#refurb-furb
+  "FURB",
+  # https://docs.astral.sh/ruff/rules/#flake8-pie-pie
+  "PIE",
+  # https://docs.astral.sh/ruff/rules/#ruff-specific-rules-ruf
+  "RUF",
+]
+ignore = [
+  # https://docs.astral.sh/ruff/rules/missing-type-args
+  "ANN002",
+  # https://docs.astral.sh/ruff/rules/missing-type-kwargs
+  "ANN003",
+  # https://docs.astral.sh/ruff/rules/any-type
+  "ANN401",
+  # https://docs.astral.sh/ruff/rules/undocumented-public-module
+  "D100",
+  # https://docs.astral.sh/ruff/rules/undocumented-public-package
+  "D104",
+  # https://docs.astral.sh/ruff/rules/undocumented-magic-method
+  "D105",
+  # https://docs.astral.sh/ruff/rules/undocumented-public-nested-class
+  "D106",
+  # https://docs.astral.sh/ruff/rules/undocumented-public-init
+  "D107",
+  # https://docs.astral.sh/ruff/rules/one-blank-line-before-class
+  "D203",
+  # https://docs.astral.sh/ruff/rules/multi-line-summary-second-line
+  "D213",
+  # https://docs.astral.sh/ruff/rules/escape-sequence-in-docstring/
+  "D301",
+  # https://docs.astral.sh/ruff/rules/dashed-underline-after-section
+  "D407",
+  # https://docs.astral.sh/ruff/rules/undocumented-param/
+  "D417",
+  # https://docs.astral.sh/ruff/rules/error-suffix-on-exception-name
+  "N818",
+  # https://docs.astral.sh/ruff/rules/invalid-module-name
+  "N999",
+  # https://docs.astral.sh/ruff/rules/unnecessary-collection-call
+  "C408",
+  # https://docs.astral.sh/ruff/rules/mutable-class-default
+  "RUF012",
+  # https://docs.astral.sh/ruff/rules/raise-vanilla-args
+  "TRY003",
+  # https://docs.astral.sh/ruff/rules/try-consider-else
+  "TRY300",
+  # https://docs.astral.sh/ruff/rules/missing-trailing-comma
+  "COM812", # ruff formatter suggested to exclude it
+  # https://docs.astral.sh/ruff/rules/try-except-in-loop/
+  "PERF203",
+
+  # TODO: Remove when fixed
+  # https://docs.astral.sh/ruff/rules/missing-type-function-argument/
+  "ANN001",
+  # https://docs.astral.sh/ruff/rules/missing-return-type-undocumented-public-function/
+  "ANN201",
+  # https://docs.astral.sh/ruff/rules/missing-return-type-private-function/
+  "ANN202",
+  # https://docs.astral.sh/ruff/rules/missing-return-type-special-method/
+  "ANN204",
+  # https://docs.astral.sh/ruff/rules/single-line-implicit-string-concatenation/
+  "ISC001",
+]
+[tool.ruff.lint.per-file-ignores]
+"__init__.py" = [
+  # https://docs.astral.sh/ruff/rules/unused-import
+  "F401",
+]
+"**/test_*" = [
+  # https://docs.astral.sh/ruff/rules/missing-return-type-undocumented-public-function
+  "ANN201",
+]
+
+
+[tool.ruff.lint.flake8-pytest-style]
+fixture-parentheses = false
+parametrize-names-type = "list"
+parametrize-values-type = "list"
+parametrize-values-row-type = "list"
+
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+
+[tool.mypy]
+ignore_missing_imports = true
+implicit_optional = false
+
+warn_no_return = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+warn_unreachable = true
+warn_unused_configs = true
+allow_redefinition = false
+disallow_any_generics = true
+strict_equality = true
+strict_optional = true
+
+ignore_errors = false
+local_partial_types = true
+
+enable_error_code = [
+  "truthy-bool",
+  "redundant-expr",
+]
+
+disable_error_code = [
+  "attr-defined",
+  "index",
+  "annotation-unchecked",
+]
+
+exclude = [
+  "docs/",
+]
+
+
+[tool.pytest.ini_options]
+python_files = [
+  "tests.py",
+  "test_*.py",
+  "*_tests.py",
+]
+addopts = [
+    "--ff",
+    "--capture=no",
+    "--verbose",
+    "--cov-config=pyproject.toml",
+    "--cov-report=lcov:coverage.lcov",
+    "--cov-report=term-missing:skip-covered",
+]
+
+
+[tool.coverage.run]
+source = [
+  "py_templating_engine",
+]
+omit = [
+  "**/__init__.py",
+]
+
+
+[tool.coverage.report]
+exclude_also = [
+  "def __repr__",
+  "def __str__",
+  "pass",
+  "if self.debug:",
+  "if settings.DEBUG",
+  "raise AssertionError",
+  "raise NotImplementedError",
+  "if __name__ == .__main__.:",
+  "if TYPE_CHECKING:",
+  "class .*\\bProtocol\\):",
+  "@(abc\\.)?abstractmethod",
+]
