@@ -33,15 +33,16 @@ class TemplatesEnvironment:
         for file in self.dir_path.rglob("*"):
             if file.is_file():
                 self.process_output_file(
-                    file,
-                    output_dir,
-                    context_path,
+                    file=file,
+                    output_dir=output_dir,
+                    context_path=context_path,
                 )
             if file.is_dir():
                 self.process_output_dir(
-                    output_dir / file.relative_to(self.dir_path),
-                    create_dirs,
-                    context_path,
+                    output_dir_path=output_dir
+                    / file.relative_to(self.dir_path),
+                    create_dirs=create_dirs,
+                    context_path=context_path,
                 )
         return output_dir
 

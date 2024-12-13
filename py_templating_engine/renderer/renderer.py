@@ -21,7 +21,7 @@ class Renderer:
             Path(context_path),
         )
         self.create_dirs = create_dirs
-        self.context = self.load_context()
+        self.context = self.load_context(self.context_path)
         self.save_path: Path | None = (
             self._validate_save_path(self.render_file_path(Path(save_path)))
             if save_path
@@ -56,6 +56,7 @@ class Renderer:
 
         if not self.save_path:
             return rendered_string
+        return None
 
     def render_file_path(
         self,
@@ -66,7 +67,9 @@ class Renderer:
             file_path.as_posix(),
         )
         if match:
-            context_variable = self._get_context_variable(match.groups()[1])
+            context_variable = self.get_variable_from_context(
+                match.groups()[1],
+            )
             file_path = Path(
                 file_path.as_posix().replace(
                     match.group(),
@@ -83,11 +86,9 @@ class Renderer:
 
         for code_string in root_node.code_strings:
             if code_string.variable.type == token.token_types_list["VARIABLE"]:
-                # TODO: Add check for wrong context variables
-                code_string.variable.text = self._get_context_variable(
+                code_string.variable.text = self.get_variable_from_context(
                     code_string.variable.text,
                 )
-
             if self.save_path:
                 rendered_file.write(code_string.variable.text)
             else:
@@ -98,9 +99,21 @@ class Renderer:
         else:
             return rendered_string
 
+    def get_variable_from_context(self, variable: str):
+        json_variable = self._get_context_variable(variable)
+        if isinstance(json_variable, list):
+            return str(json_variable[0])
+        if isinstance(json_variable, int | float | bool | str):
+            return str(json_variable)
+        raise exceptions.CorrectTemplateVariableNotFoundError(
+            variable,
+            json_variable,
+        )
+
     def _get_context_variable(self, variable: str) -> Any:
         return self.context.get(variable.replace("templater.", "", 1))
 
-    def load_context(self) -> dict[str, str | int | float | bool]:
-        with open(self.context_path) as context_file:
+    @classmethod
+    def load_context(cls, context_path: Path):
+        with context_path.open() as context_file:
             return json.load(context_file)
