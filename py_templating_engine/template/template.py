@@ -19,7 +19,7 @@ class Template:
 
     def render(
         self,
-        context_path: str = "templater.json",
+        context_path: str,
         save_path: None | str = None,
         create_dirs: bool = True,
     ) -> None | str:
@@ -34,3 +34,4 @@ class Template:
 
         if not save_path:
             return result
+        return None

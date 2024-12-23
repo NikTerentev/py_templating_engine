@@ -56,7 +56,9 @@ def main(
 
 
 def get_current_context(template_dir: str) -> dict[str, typing.Any]:
-    context = Renderer.load_context(Path("templater.json"))
+    context = Renderer.load_context(
+        Path(template_dir) / Path("templater.json"),
+    )
     for variable, value in context.items():
         console.print(
             f"Enter {variable} value (default = [bold yellow]"
