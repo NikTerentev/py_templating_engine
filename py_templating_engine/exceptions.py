@@ -65,3 +65,19 @@ class SavePathError(TemplateException):
     def __init__(self, path: str) -> None:
         """Initialize exception instance."""
         super().__init__(f"Save path {path} doesn't exist!")
+
+
+class CorrectTemplateVariableNotFoundError(TemplateException):
+    """Exception for case when correct template not found in exception."""
+
+    def __init__(
+        self,
+        variable: str,
+        json_variable: str,
+    ) -> None:
+        """Initialize exception instance."""
+        super().__init__(
+            f"{variable.replace("templater.", "")} correct value "
+            f"not found in JSON! "
+            f"Founded: {json_variable if json_variable else "''"}.",
+        )
