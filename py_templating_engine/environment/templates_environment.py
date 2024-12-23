@@ -24,8 +24,9 @@ class TemplatesEnvironment:
         # TODO: Add default value for output_dir
         output_dir: str,
         create_dirs: bool = True,
-        context_path: str = "templater.json",
+        context_path: str = "",
     ) -> str:
+        context_path = context_path or f"{self.dir_path}/templater.json"
         self._create_output_dir(
             Path(output_dir),
             create_dirs,
@@ -52,6 +53,9 @@ class TemplatesEnvironment:
         output_dir: str,
         context_path: str,
     ) -> None:
+        import ipdb
+
+        ipdb.set_trace()
         template = Template(file.as_posix())
         template.render(
             save_path=(

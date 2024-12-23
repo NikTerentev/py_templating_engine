@@ -22,7 +22,8 @@ class Lexer:
         while local_position + 1 <= len(file_line):
             for token_type in token_types_list.values():
                 match = re.search(
-                    f"^{token_type.regex}", file_line[local_position:],
+                    f"^{token_type.regex}",
+                    file_line[local_position:],
                 )
                 if match:
                     new_token = Token(

@@ -12,7 +12,7 @@ class Renderer:
     def __init__(
         self,
         template_file_path: Path,
-        context_path: str = "templater.json",
+        context_path: str,
         save_path: str = "",
         create_dirs: bool = False,
     ) -> None:
