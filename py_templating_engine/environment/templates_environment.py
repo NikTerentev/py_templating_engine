@@ -53,9 +53,6 @@ class TemplatesEnvironment:
         output_dir: str,
         context_path: str,
     ) -> None:
-        import ipdb
-
-        ipdb.set_trace()
         template = Template(file.as_posix())
         template.render(
             save_path=(

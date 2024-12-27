@@ -47,7 +47,7 @@ class Renderer:
         return save_path
 
     def render(self) -> None | str:
-        lexer = Lexer(self.template_file_path.as_posix())
+        lexer = Lexer(self.template_file_path)
         lexer.lexical_analysis()
         parser = Parser(lexer.token_list)
         root_node: ast.ExpressionNode = parser.parse_code()
