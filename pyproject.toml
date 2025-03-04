@@ -34,6 +34,8 @@ pytest = "^8.3.4"
 # Coverage plugin for pytest
 # https://github.com/pytest-dev/pytest-cov
 pytest-cov = "^6.0.0"
+# Thin-wrapper around the mock package for easier use with pytest
+pytest-mock = "^3.14.0"
 
 
 [tool.poetry.group.commit-style.dependencies]
@@ -198,6 +200,8 @@ ignore = [
 "**/test_*" = [
   # https://docs.astral.sh/ruff/rules/missing-return-type-undocumented-public-function
   "ANN201",
+  # https://docs.astral.sh/ruff/rules/assert/
+  "S101",
 ]
 
 
