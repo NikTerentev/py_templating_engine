@@ -1,14 +1,15 @@
 from pathlib import Path
 
-from py_templating_engine import exceptions
-from py_templating_engine.renderer import Renderer
-from py_templating_engine.template import Template
+from .. import exceptions
+from ..renderer import Renderer
+from ..template import Template
 
 
 class TemplatesEnvironment:
     def __init__(self, dir_path: Path) -> None:
         self.dir_path: Path = self._validate_path(dir_path)
         self.output_dir: Path = self._validate_path(dir_path.parent)
+        self.first_created_dir: Path | None = None
 
     def _validate_path(self, dir_path: Path) -> Path:
         if not dir_path.is_dir():
@@ -33,12 +34,18 @@ class TemplatesEnvironment:
                     context_path=context_path,
                 )
             if file.is_dir():
-                self.process_output_dir(
+                created_dir = self.process_output_dir(
                     output_dir_path=self.output_dir
                     / file.relative_to(self.dir_path),
                     context_path=context_path,
                 )
-        return self.output_dir
+                if self.first_created_dir is None:
+                    self.first_created_dir = created_dir
+        return (
+            self.first_created_dir
+            if self.first_created_dir
+            else self.output_dir
+        )
 
     def process_output_file(
         self,
@@ -61,7 +68,7 @@ class TemplatesEnvironment:
         self,
         output_dir_path: Path,
         context_path: str,
-    ) -> None:
+    ) -> Path:
         renderer = Renderer(
             template_file_path=output_dir_path,
             save_path=output_dir_path.as_posix(),
@@ -69,9 +76,11 @@ class TemplatesEnvironment:
         )
         output_dir_path = renderer.render_file_path(output_dir_path)
         self._create_output_dir(output_dir_path)
+        return output_dir_path
 
     def _create_output_dir(
         self,
         output_dir_path: Path,
     ) -> None:
-        output_dir_path.mkdir(parents=True)
+        if not output_dir_path.exists():
+            output_dir_path.mkdir(parents=True)
