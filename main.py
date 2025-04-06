@@ -1,10 +1,10 @@
-from py_templating_engine.environment import TemplatesEnvironment
-from py_templating_engine.template import Template
 from pathlib import Path
+
+from py_templating_engine.environment import TemplatesEnvironment
 
 
 def main() -> None:
-    environment = TemplatesEnvironment(Path("C:\\Users\\nikit\\Desktop\\programming\\templater_test\\test_template"))
+    environment = TemplatesEnvironment(Path("test_template"))
     result = environment.render_project()
     print(result)
 

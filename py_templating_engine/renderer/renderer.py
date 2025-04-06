@@ -85,7 +85,7 @@ class Renderer:
             rendered_string = ""
 
         for code_string in root_node.code_strings:
-            if code_string.variable.type == token.token_types_list["VARIABLE"]:
+            if code_string.variable.type == token.TokenType.VARIABLE:
                 code_string.variable.text = self.get_variable_from_context(
                     code_string.variable.text,
                 )

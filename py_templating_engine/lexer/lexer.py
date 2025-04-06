@@ -1,8 +1,7 @@
 import re
 from pathlib import Path
 
-from py_templating_engine.token import Token
-from py_templating_engine.token.token_type import token_types_list
+from py_templating_engine import token
 
 
 class Lexer:
@@ -11,14 +10,10 @@ class Lexer:
     def __init__(self, file_path: Path) -> None:
         """Set the starting position, tokens list and compile tokens."""
         self.position = 0
-        self.token_list: list[Token] = []
+        self.token_list: list[token.Token] = []
         self.file_path: Path = file_path
-        self.compiled_tokens: dict[str, re.Pattern[str]] = {
-            token_name: re.compile(token.regex)
-            for token_name, token in token_types_list.items()
-        }
 
-    def lexical_analysis(self) -> list[Token]:
+    def lexical_analysis(self) -> list[token.Token]:
         """Send each line in the file to be parsed into tokens."""
         try:
             with self.file_path.open() as file:
@@ -36,13 +31,13 @@ class Lexer:
         """Break the file line into 'tokens'."""
         local_position = 0
         while local_position + 1 <= len(file_line):
-            for token_type, regex in self.compiled_tokens.items():
-                match: re.Match[str] | None = regex.match(
+            for token_type in token.TokenType:
+                match: re.Match[str] | None = token_type.value.match(
                     file_line[local_position:],
                 )
                 if match:
-                    new_token = Token(
-                        token_types_list[token_type],
+                    new_token = token.Token(
+                        token_type,
                         match.group(),
                         local_position + self.position,
                     )

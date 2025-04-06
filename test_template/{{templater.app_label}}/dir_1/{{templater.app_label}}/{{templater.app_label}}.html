@@ -1,0 +1,20 @@
+{% extends "email_base.html" %}
+{% load i18n %}
+
+{% block email_body %}
+  {% autoescape off %}
+    {% blocktrans with app_url=app_url app_label=app_label %}
+      <p>Hello from {{templater.app_label }}!</p>
+      <p>
+        You're receiving this e-mail because you or someone else
+        has requested a password for your user account at <a href="{{    templater.app_url }}">{{ templater.app_label }}</a>.
+        It can be safely ignored if you did not request a password reset.
+        Click the link below to reset your password.
+      </p>
+    {% endblocktrans %}
+    <a href="{{ templater.new_password_url }}?token={{ templater.uid}}-{{   templater.token   }}">Reset password</a>
+    {% blocktrans with app_label=app_label %}
+      <p>Thank you for using {{ app_label }}!</p>
+    {% endblocktrans %}
+  {% endautoescape %}
+{% endblock %}
