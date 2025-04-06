@@ -3,9 +3,9 @@ import re
 from pathlib import Path
 from typing import Any
 
-from py_templating_engine import ast, exceptions, token
-from py_templating_engine.lexer import Lexer
-from py_templating_engine.parser import Parser
+from .. import ast, exceptions, token
+from ..lexer import Lexer
+from ..parser import Parser
 
 
 class Renderer:

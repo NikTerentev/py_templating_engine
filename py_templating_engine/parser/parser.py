@@ -1,4 +1,4 @@
-from py_templating_engine import ast, token
+from .. import ast, token
 
 
 class Parser:

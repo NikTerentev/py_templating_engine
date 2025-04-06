@@ -1,7 +1,7 @@
 import re
 from pathlib import Path
 
-from py_templating_engine import token
+from .. import token
 
 
 class Lexer:

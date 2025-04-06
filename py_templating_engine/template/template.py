@@ -1,7 +1,7 @@
 from pathlib import Path
 
-from py_templating_engine import exceptions
-from py_templating_engine.renderer import Renderer
+from .. import exceptions
+from ..renderer import Renderer
 
 
 class Template:

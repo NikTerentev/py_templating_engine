@@ -1,4 +1,4 @@
-from py_templating_engine.token import Token
+from ..token import Token
 
 from .expression_node import ExpressionNode
 
